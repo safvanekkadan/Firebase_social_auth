@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "924758427500",
+    "project_id": "socialapp-auth-84745",
+    "storage_bucket": "socialapp-auth-84745.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:924758427500:android:0ddcb385532ece7346d549",
+        "android_client_info": {
+          "package_name": "com.example.firebase_social_auth"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCmD17LU87VjoYdCWw8ILHwVsPCGKcYBKg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
