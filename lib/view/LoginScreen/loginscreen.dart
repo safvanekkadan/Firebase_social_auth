@@ -15,13 +15,13 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor:Colors.black,
+        backgroundColor:Colors.white,
         title: const Text(
-          "Auth App",
+          "Social Authentification",
           style: TextStyle(
-            color:Colors.white,
+            color:Colors.black,
             fontSize: 27,
             fontWeight: FontWeight.bold,
           ),
@@ -33,6 +33,7 @@ class LoginScreen extends StatelessWidget {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+             const SizedBox(height: 30,),
               RoundedLoadingButton(
                 onPressed: () {
                   handleGoogleSignIn(context);
@@ -45,14 +46,34 @@ class LoginScreen extends StatelessWidget {
                 color: cWhiteColor,
                 child: Wrap(
                   children: [
-                    Image.network("https://w7.pngwing.com/pngs/223/537/png-transparent-padlock-key-self-storage-security-clean-coal-text-rectangle-logo-thumbnail.png", height: 25),
+                      ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return const LinearGradient(
+                 colors: [Color(0xFF4285F4), Color(0xFF34A853), Color(0xFFFBBC05), Color(0xFFEA4335)],
+                stops: [0.0, 0.25, 0.5, 0.75],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ).createShader(bounds);
+            },
+            child:const Padding(
+              padding:  EdgeInsets.only(bottom: 5,top: 5),
+              child:  Icon(
+                FontAwesomeIcons.google,
+                size: 25,
+                color: Colors.white, 
+              ),
+            ),
+          ),
                    const  SizedBox(width: 5,),
-                    const Text(
-                      "Sign in with Google",
-                      style: TextStyle(
-                        color: cBlackColor,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom:5,top: 5),
+                      child: const Text(
+                        "Sign in with Google",
+                        style: TextStyle(
+                          color: cBlackColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
                   ],
@@ -69,11 +90,11 @@ class LoginScreen extends StatelessWidget {
               //   color: cDarkBlueColor,
               //   child:  const Wrap(
               //     children: [
-              //        Icon(
-              //         FontAwesomeIcons.facebook,
-              //         size: 20,
-              //         color: cWhiteColor,
-              //       ),
+                    //  Icon(
+                    //   FontAwesomeIcons.facebook,
+                    //   size: 20,
+                    //   color: cWhiteColor,
+                    // ),
               //      SizedBox(width: 15),
               //        Text(
               //         "Sign in with Facebook",

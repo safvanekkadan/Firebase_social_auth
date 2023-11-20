@@ -9,8 +9,9 @@ class  SignInProvider extends ChangeNotifier{
 
   final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn googleSignIn = GoogleSignIn();
-  final RoundedLoadingButtonController googleController =
-      RoundedLoadingButtonController();
+
+  final RoundedLoadingButtonController googleController = RoundedLoadingButtonController();
+
   bool _isSignedIn =false;
   bool get isSignedIn=> _isSignedIn;
    //hasError, errorCode, provider,uid, email, name, imageUrl
@@ -72,7 +73,7 @@ Future signInWithGoogle() async {
         _name = userDetails.displayName;
         _email = userDetails.email;
         _imageUrl = userDetails.photoURL;
-        _provider = "GOOGLE";
+        _provider = "Google";
         _uid = userDetails.uid;
         notifyListeners();
       } on FirebaseAuthException catch (e) {
@@ -159,7 +160,7 @@ Future signInWithGoogle() async {
   Future userSignOut() async {
     await firebaseAuth.signOut;
     await googleSignIn.signOut();
-    // await facebookAuth.logOut();
+   
 
     _isSignedIn = false;
     notifyListeners();
@@ -171,5 +172,22 @@ Future signInWithGoogle() async {
     final SharedPreferences sharedPref = await SharedPreferences.getInstance();
     sharedPref.clear();
   }
+  Future<UserCredential> signInWithGoogle2() async {
+  // Trigger the authentication flow
+  final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+  // Obtain the auth details from the request
+  final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+  // Create a new credential
+  final credential = GoogleAuthProvider.credential(
+    accessToken: googleAuth?.accessToken,
+    idToken: googleAuth?.idToken,
+  );
+
+  // Once signed in, return the UserCredential
+  return await FirebaseAuth.instance.signInWithCredential(credential);
 }
+}
+
 

@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_social_auth/controller/internet_provider.dart';
 import 'package:firebase_social_auth/controller/sign_in_provider.dart';
 import 'package:firebase_social_auth/view/Splash/splashscreen.dart';
 import 'package:firebase_social_auth/view/homescreen/home.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context)=>SignInProvider()),
+        ChangeNotifierProvider(create: (context)=>InternetProvider())
 
       ],
       child: MaterialApp(
