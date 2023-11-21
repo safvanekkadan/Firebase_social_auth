@@ -46,6 +46,11 @@ dependencies:
   rounded_loading_button: ^2.1.0
   internet_connection_checker: ^1.0.0+1
   connectivity_plus: ^5.0.1
+  twitter_login: ^4.4.2
+  lottie: ^2.7.0
+  firebase_storage: ^11.5.1
+  image_picker: ^1.0.4
+  firebase_database: ^10.3.4
 
 dev_dependencies:
   flutter_test:
@@ -70,9 +75,10 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
-  #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/Animation - 1700555435285.json
+    - assets/Animation - 1700556559877.json
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
