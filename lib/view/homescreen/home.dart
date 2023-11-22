@@ -1,13 +1,12 @@
-import 'dart:io';
 
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_social_auth/controller/sign_in_provider.dart';
 import 'package:firebase_social_auth/helpers/colors.dart';
 import 'package:firebase_social_auth/view/LoginScreen/loginscreen.dart';
+import 'package:firebase_social_auth/view/homescreen/widgets/imageupdate.dart';
 import 'package:firebase_social_auth/view/widgets/next_screen.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,48 +52,39 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
            Stack(
-  children: [
-    CircleAvatar(
-      backgroundColor: cWhiteColor,
-      backgroundImage: NetworkImage("${value.imageUrl}"),
-      radius: 50,
-    ),
-    Positioned(
-      top: 10,
-      right: 10,
-      child: IconButton(
-        icon: const Icon(Icons.edit),
-       onPressed: () => 
-       editImage(),
-        color: cWhiteColor,
-      ),
-    ),
-  ],
-),
+           children: [
+           Row(mainAxisAlignment: MainAxisAlignment.center,
+             children: [
+               CircleAvatar(
+                backgroundColor: cWhiteColor,
+                backgroundImage: NetworkImage("${value.imageUrl}"),
+                radius: 50,
+                ),
+                 IconButton(onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder:(context) => ImageUpdate()));
+                 }, 
+                icon:Icon(Icons.image)),
+             ],
+           ),
+   
+            ],
+             ),
             const SizedBox(
               height: 20,
             ),
             Stack(
-  children: [
-    Text(
-      "Welcome ${value.name}",
-      style: const TextStyle(
-        fontSize: 15,
-        fontWeight: FontWeight.w500,
-        color: cWhiteColor,
-      ),
-    ),
-    Positioned(
-      top: 10,
-      right: 10,
-      child: IconButton(
-        icon: const Icon(Icons.edit,color: Colors.blue,),
-        onPressed: () => editName(),
-        color: Colors.blue,
-      ),
-    ),
-  ],
-),
+           children: [
+            Text(
+             "Welcome ${value.name}",
+             style: const TextStyle(
+             fontSize: 15,
+              fontWeight: FontWeight.w500,
+               color: cWhiteColor,
+                 ),
+                ),
+   
+             ],
+             ),
 
             const SizedBox(
               height: 10,
@@ -154,67 +144,67 @@ class _HomeScreenState extends State<HomeScreen> {
            ),
         );
       }
-void editImage() async {
-  final value = context.read<SignInProvider>();
-  final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-  if (pickedImage != null) {
-    final imageFile = File(pickedImage.path);
+// void editImage() async {
+//   final value = context.read<SignInProvider>();
+//   final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+//   if (pickedImage != null) {
+//     final imageFile = File(pickedImage.path);
 
-    // Upload the image to Firebase Storage
-    final storageReference = FirebaseStorage.instance.ref('profile_Pic/${value.uid}');
-    final uploadTask = storageReference.putFile(imageFile);
+//     // Upload the image to Firebase Storage
+//     final storageReference = FirebaseStorage.instance.ref('profile_Pic/${value.uid}');
+//     final uploadTask = storageReference.putFile(imageFile);
 
-    await uploadTask.whenComplete(() async {
-      final _imageUrl = await storageReference.getDownloadURL();
+//     await uploadTask.whenComplete(() async {
+//       final _imageUrl = await storageReference.getDownloadURL();
 
-      // Update the user's image URL in Firebase Realtime Database
-      final databaseReference = FirebaseDatabase.instance.ref('users/${value.uid}');
-      await databaseReference.update({'image_url': _imageUrl});
+//       // Update the user's image URL in Firebase Realtime Database
+//       final databaseReference = FirebaseDatabase.instance.ref('users/${value.uid}');
+//       await databaseReference.update({'image_url': _imageUrl});
 
-      // Update the local state with the new image URL
+//       // Update the local state with the new image URL
       
-      value.imageUrl = _imageUrl;
+//       value.imageUrl = _imageUrl;
       
-    });
-  }
-}
-void editName() async{
-  final value = context.read<SignInProvider>();
-  final newName = await showDialog<String>(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Edit Name'),
-      content: TextField(
-       // initialValue: value.name,
-        decoration: const InputDecoration(
-          labelText: 'Enter your new name',
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context, null),
-          child: const Text('Cancel'),
-        ),
-        TextButton(
-          onPressed: () {
-            final newName = Navigator.pop(context);
-            if (value.name != null) {
-              // Update the user's name in Firebase Realtime Database
-              final databaseReference = FirebaseDatabase.instance.ref('users/${value.uid}');
-              databaseReference.update({'name':value.name});
+//     });
+//   }
+// }
+// void editName() async{
+//   final value = context.read<SignInProvider>();
+//   final newName = await showDialog<String>(
+//     context: context,
+//     builder: (context) => AlertDialog(
+//       title: const Text('Edit Name'),
+//       content: TextField(
+//        // initialValue: value.name,
+//         decoration: const InputDecoration(
+//           labelText: 'Enter your new name',
+//         ),
+//       ),
+//       actions: [
+//         TextButton(
+//           onPressed: () => Navigator.pop(context, null),
+//           child: const Text('Cancel'),
+//         ),
+//         TextButton(
+//           onPressed: () {
+//             final newName = Navigator.pop(context);
+//             if (value.name != null) {
+//               // Update the user's name in Firebase Realtime Database
+//               final databaseReference = FirebaseDatabase.instance.ref('users/${value.uid}');
+//               databaseReference.update({'name':value.name});
 
-              // Update the local state with the new name
+//               // Update the local state with the new name
               
-                value.name =value.name;
+//                 value.name =value.name;
             
-            }
-          },
-          child: const Text('Update'),
-        ),
-      ],
-    ),
-  );
-}
+//             }
+//           },
+//           child: const Text('Update'),
+//         ),
+//       ],
+//     ),
+//   );
+// }
 
 }
 
